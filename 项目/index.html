@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>主题商品页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//cdn.staticfile.org/layui/2.8.18/css/layui.css" rel="stylesheet">
+</head>
+<style>
+    iframe {
+        width: 100%;
+        height: 100vh;
+        border: none;
+    }
+</style>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header" style="border-bottom: 1px solid #e3e3e3;">
+            <div class="layui-logo layui-hide-xs layui-bg-black" style="color:black;">商品列表</div>
+            <!-- 头部区域（可配合layui 已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
+                    <a href="javascript:;">
+                        <img src="../img/用户.png" class="layui-nav-img">
+                        账号管理
+                    </a>
+                    <!-- <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">Your Profile</a></dd>
+                        <dd><a href="javascript:;">Settings</a></dd>
+                        <dd><a href="javascript:;">Sign out</a></dd>
+                    </dl> -->
+                </li>
+                <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                    <a href="javascript:;">
+                        <i class="layui-icon layui-icon-more-vertical"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed" id="sale">
+                        <a class="" href="javascript:;">商品管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">出售中</a></dd>
+                            <dd><a href="javascript:;">已售完</a></dd>
+                            <dd><a href="javascript:;">仓库中</a></dd>
+                            <dd><a href="javascript:;">回收站</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item" id="sale1">
+                        <a href="javascript:;">商品分类</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">分类列表</a></dd>
+                            <dd><a href="javascript:;">list 2</a></dd>
+                            <dd><a href="javascript:;">超链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="javascript:;">click menu item</a></li>
+                    <li class="layui-nav-item"><a href="javascript:;">the links</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div style="padding: 15px;">
+
+                <div class="layui-card layui-panel">
+
+                    <div class="layui-card-body">
+                        <iframe src="./user.html" frameborder="0"></iframe>
+                    </div>
+                </div>
+                <br><br>
+            </div>
+        </div>
+        <div class="layui-footer">
+
+            <!-- 底部固定区域 -->
+            底部固定区域
+        </div>
+    </div>
+    <script src="../jquery-3.7.1.js"></script>
+    <script src="//cdn.staticfile.org/layui/2.8.18/layui.js"></script>
+    <script>
+        //JS 
+        layui.use(['element', 'layer', 'util'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+            var util = layui.util;
+            var $ = layui.$;
+
+            //头部事件
+            util.event('lay-header-event', {
+                menuLeft: function (othis) { // 左侧菜单事件
+                    layer.msg('展开左侧菜单的操作', { icon: 0 });
+                },
+                menuRight: function () {  // 右侧菜单事件
+                    layer.open({
+                        type: 1,
+                        title: '更多',
+                        content: '<div style="padding: 15px;">处理右侧面板的操作</div>',
+                        area: ['260px', '100%'],
+                        offset: 'rt', // 右上角
+                        anim: 'slideLeft', // 从右侧抽屉滑出
+                        shadeClose: true,
+                        scrollbar: false
+                    });
+                }
+            });
+        });
+
+        $(function () {
+            $("#sale dd").click(salefun)
+            $("#sale1 dd").click(sale1fun)
+        })
+
+        function salefun() {
+            console.log(111);
+            let an = $(this).text().trim();
+            switch (an) {
+                case '出售中':
+                    $(".layui-card-body").html(
+                        `<iframe src="./出售中.html"></iframe>`
+                    )
+                    break;
+                case '回收站':
+                    $(".layui-card-body").html(
+                        `<iframe src="./回收站.html"></iframe>`
+                    )
+                    break;
+                case '已售完':
+                    $(".layui-card-body").html(
+                        `<iframe src="./已售完.html"></iframe>`
+                    )
+                    break;
+                case '仓库中':
+                    $(".layui-card-body").html(
+                        `<iframe src="./仓库.html"></iframe>`
+                    )
+                    break;
+            }
+        }
+
+
+        function sale1fun() {
+            console.log(111);
+            let an = $(this).text().trim();
+            switch (an) {
+                case '分类列表':
+                    $(".layui-card-body").html(
+                        `<iframe src="./商品分类.html"></iframe>`
+                    )
+                    break;
+
+            }
+        }
+    </script>
+</body>
+
+</html>

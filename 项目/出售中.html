@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出售中</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .box {
+        width: 100%;
+        background-color: rgb(242, 245, 255);
+        overflow: hidden;
+    }
+
+    .top {
+        width: 95%;
+        height: 250px;
+        margin: 30px auto;
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .bottom {
+        width: 95%;
+        margin: auto;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .tul {
+        width: 100%;
+        height: 300px;
+    }
+
+    .tul li {
+        padding: 30px 40px;
+        width: 90%;
+        margin: auto;
+    }
+
+    .tul li:first-child {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+
+
+    #addbtn {
+        width: 100px;
+        height: 30px;
+        border: none;
+        color: white;
+        background-color: rgb(66, 146, 253);
+        padding: 0 12px;
+        margin-right: 50px;
+    }
+
+    #search {
+        width: 50px;
+        height: 30px;
+        border: none;
+        color: white;
+        background-color: rgb(66, 146, 253);
+        margin: 0 20px;
+    }
+
+    .addtp {
+        float: left;
+        width: 20px;
+        height: 20px;
+    }
+
+    table {
+        width: 95%;
+        margin: auto;
+        text-align: center;
+    }
+
+    tr {
+        width: 95%;
+        height: 50px;
+
+    }
+
+    th,
+    td {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    td {
+        height: 80px;
+        line-height: 20px;
+    }
+
+    img {
+        width: 60px;
+        height: 60px;
+        /* float: left; */
+        text-align: center;
+    }
+
+    #brief {
+        width: 250px;
+        font-size: 12px;
+    }
+
+    #addbox {
+        width: 95%;
+        height: 650px;
+        border: 1px solid gray;
+        position: absolute;
+        top: 100px;
+        background-color: rgba(188, 215, 249, 0.5);
+        text-align: center;
+        line-height: 25px;
+        padding: 30px 0;
+        overflow: hidden;
+        display: none;
+        margin: auto;
+    }
+
+    #editbox {
+        width: 95%;
+        height: 530px;
+        border: 1px solid gray;
+        position: absolute;
+        top: 100px;
+        background-color: rgba(188, 215, 249, 0.5);
+        text-align: center;
+        line-height: 25px;
+        padding: 30px 0;
+        overflow: hidden;
+        display: none;
+        margin: auto;
+    }
+
+    #addh {
+        margin-bottom: 20px;
+
+    }
+
+    #void,
+    #seal {
+        width: 60px;
+        height: 30px;
+        background-color: #4292fd;
+        border: none;
+        color: white;
+        border-radius: 8px;
+    }
+
+    button {
+        width: 50px;
+        height: 30px;
+        border: none;
+        color: #4292fd;
+        background-color: white;
+    }
+
+    #foot {
+        width: 95%;
+        margin: auto;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .layui-laydate-content tr {
+        height: 30px;
+    }
+
+    #paging {
+        height: 50px;
+        background-color: rgb(242, 245, 255);
+    }
+
+    #prev,
+    #next {
+        width: 50px;
+        height: 30px;
+        background-color: #4292fd;
+        color: white;
+    }
+
+    #prev {
+        margin-left: 10px;
+    }
+
+    #next {
+        float: right;
+        margin-right: 10px;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="top">
+            <ul class="tul">
+                <li>
+                    <button id="addbtn">
+                        <img src="../img/添加.png" class="addtp">
+                        添加商品
+                    </button>
+
+                    <span>商品限制数量：</span>
+                    <span>已使用117个/无限制</span>
+                </li>
+                <!--  -->
+                <form action="">
+                    <li>
+                        商品名称：<input type="text" placeholder="商品名称/编码/条码" id="seac">&emsp;
+                        商品分类：<select name="" id="cation">
+                            <option>商品分类</option>
+                            <option value="">on_shelf'</option>
+                            <option value="">off_shelf</option>
+                            <option value="">recycle_bin</option>
+                        </select>&emsp;
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">创建日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="ID-laydate-format-1" placeholder="年/月/日">
+                            </div>
+                        </div><br><br>
+                        商品类型：<select name="" id="types">
+                            <option value="">商品类型</option>
+                            <option value="">1实物(默认)</option>
+                            <option value="">2虚拟</option>
+                        </select>&emsp;
+                        <button id="search" type="button">搜索</button>
+                        <button id="resetting" type="reset">重置</button>
+                    </li>
+                </form>
+            </ul>
+        </div>
+
+        <div class="bottom">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox">
+                        </th>
+                        <th>ID</th>
+                        <th>商品</th>
+                        <th>价格</th>
+                        <th>库存</th>
+                        <th>实际销量</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="foot">
+            <div id='addbox'>
+                <h3 id="addh">添加商品</h3>
+                商品图片：<input type="text" id="photo"><br><br>
+                商品名称： <input type="text" id="name"><br><br>
+                商品排序： <input type="text" id="sort"><br><br>
+                商品价格： <input type="text" id="price"><br><br>
+                商品库存： <input type="text" id="stock"><br><br>
+                商品销量： <input type="text" id="sales"><br><br>
+                商品状态： <input type="text" id="status" value="on_shelf"><br><br>
+                商品类型： <input type="text" id="type" value="1"><br><br>
+                商品分类： <input type="text" id="category"><br><br>
+                <button id="void">取消</button>&emsp;
+                <button id="seal">确定</button>
+            </div>
+
+            <div id='editbox'>
+                <h3 id="edit">修改商品</h3>
+                商品名称： <input type="text" id="name1"><br><br>
+                商品图片： <input type="text" id="photo1"><br><br>
+                商品排序： <input type="text" id="sort1"><br><br>
+                商品价格： <input type="text" id="price1"><br><br>
+                商品库存： <input type="text" id="stock1"><br><br>
+                商品销量： <input type="text" id="sales1"><br><br>
+                商品状态： <input type="text" id="status1"><br><br>
+                商品类型： <input type="text" id="type1"><br><br>
+                商品分类： <input type="text" id="category1"><br><br>
+                <button id="void1">取消</button>&emsp;
+                <button id="seal1">保存</button>
+            </div>
+
+            <div id="paging">
+                <button id="prev">上一页</button>
+                <button id="next">下一页</button>
+            </div>
+
+        </div>
+    </div>
+    <link href="//unpkg.com/layui@2.8.18/dist/css/layui.css" rel="stylesheet">
+    <script src="//unpkg.com/layui@2.8.18/dist/layui.js"></script>
+    <script src="../jquery-3.7.1.js"></script>
+    <script>
+        let token = localStorage.getItem('token');
+        let page = 1,
+            limit = 5,
+            is_sale = 1
+        let an = null
+
+        $(function () {
+            renderlist()
+
+            //显示添加框
+            $('#addbtn').click(addboxfun)
+            //点击保存取消
+            $("#seal").click(sealfun)
+            $("#void").click(voidfun)
+            $("#seal1").click(seal1fun)
+            $("#void1").click(void1fun)
+            //删除编辑
+            $("tbody").click(tbodyfun)
+
+            //搜索
+            $("#search").click(searchfun)
+        })
+
+        //重置
+        $("#resetting").click(function () {
+            renderlist()
+        })
+
+        //搜索
+        function searchfun() {
+            let searchStr = {
+                title: $("#seac").val(),
+                type: $("#types").val(),
+                category: $("#cation").val(),
+                create_time: $("#ID-laydate-format-1").val()
+            }
+            $.ajax({
+                url: 'https://manage.zzgoodqc.cn/api/goods',
+                type: 'GET',
+                data: searchStr,
+                headers: {
+                    Authorization: token,
+                },
+                success: function (res) {
+                    console.log(res);
+                    let html = ''
+                    res.data.data.forEach((item, index) => {
+                        html += ` <tr>
+                              <td>
+                                 <input type="checkbox">
+                              </td>
+                              <td datas-index=${index}>${item.id}</td>
+                              <td id="brief">
+                                <img src="${item.thumbnail}">
+                                <span>${item.title}</span>
+                              </td>
+                              
+                              <td>${item.price}</td>
+                              <td>${item.stock}</td>
+                              <td>${item.actual_sales}</td>
+                              <td>${item.create_time}</td>
+                              <td>
+                                <button  data-id=${item.id}>下架</button>
+                                <button  data-id=${item.id}>编辑</button>
+                                <button  data-id=${item.id}>删除</button>
+                              </td>
+                          </tr>`
+                    })
+                    $("tbody").html(html)
+
+                }
+            })
+            renderlist()
+        }
+
+        //上
+        $("#prev").click(function () {
+            page--
+            page = page == 0 ? 1 : page
+            renderlist()
+        })
+
+        $("#next").click(function () {
+            page++
+            renderlist()
+        })
+
+
+
+        //显示添加框
+        function addboxfun() {
+            $('#addbox').toggle()
+        }
+        //取消
+        function voidfun() {
+            $('#addbox').css('display', 'none')
+        }
+        function void1fun() {
+            $('#editbox').css('display', 'none')
+        }
+
+        //删除编辑
+        function tbodyfun() {
+            let btn = event.target;
+            if (btn.tagName == "BUTTON" && btn.innerHTML == "删除") {
+                let id = $(event.target).data('id');
+                $.ajax({
+                    url: 'https://manage.zzgoodqc.cn/api/goods/solt/' + id,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    headers: {
+                        Authorization: token,
+                    },
+                    success: function (data) {
+                        renderlist()
+                    }
+                })
+            }
+            if (btn.tagName == 'BUTTON' && btn.innerHTML == "编辑") {
+                $("#editbox").toggle()
+                an = $(event.target).data('id')
+                getID = event.target.dataset.id;
+
+                $.ajax({
+                    url: `http://manage.zzgoodqc.cn/api/goods/${getID}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        Authorization: token,
+                    },
+                    success: function (data) {
+                        $("#photo1").val(data.data.thumbnail)
+                        $("#sort1").val(data.data.sort)
+                        $("#name1").val(data.data.title)
+                        $("#price1").val(data.data.price)
+                        $("#stock1").val(data.data.stock)
+                        $("#sales1").val(data.data.actual_sales)
+                        $("#status1").val(data.data.status)
+                        $("#type1").val(data.data.type)
+                        $("#category1").val(data.data.category)
+                        renderlist()
+                    }
+                })
+            }
+        }
+
+        //保存编辑
+        function seal1fun() {
+            let seal = {
+                thumbnail: $("#photo1").val(),
+                sort: $("#sort1").val(),
+                title: $("#name1").val(),
+                price: $("#price1").val(),
+                stock: $("#stock1").val(),
+                actual_sales: $("#sales1").val(),
+                status: $("#status1").val(),
+                type: $("#type1").val(),
+                category: $("#category1").val()
+            }
+            console.log(an);
+            console.log(seal);
+            $.ajax({
+                url: `https://manage.zzgoodqc.cn/api/goods/${an}`,
+                type: 'PUT',
+                data: seal,
+                headers: {
+                    Authorization: token,
+                },
+                success: function (data) {
+                    console.log(data);
+                    renderlist()
+                    $('#editbox').css('display', 'none')
+                }
+            })
+        }
+
+        //确定添加
+        function sealfun() {
+            let goods = {
+                thumbnail: $("#photo").val(),
+                sort: $("#sort").val(),
+                title: $("#name").val(),
+                price: $("#price").val(),
+                stock: $("#stock").val(),
+                actual_sales: $("#sales").val(),
+                status: $("#status").val(),
+                type: $("#type").val(),
+                category: $("#category").val()
+            }
+            console.log(goods);
+            $.ajax({
+                url: 'http://manage.zzgoodqc.cn/api/goods',
+                type: 'POST',
+                // dataType: 'json',
+                data: goods,
+                headers: {
+                    Authorization: token,
+                },
+                success: function (data) {
+                    renderlist()
+                    $('#addbox').css('display', 'none')
+                }
+            })
+        }
+
+
+        //渲染
+        function renderlist() {
+            $.ajax({
+                url: `http://manage.zzgoodqc.cn/api/goods?page=${page}&limit=${limit}&is_sale=${is_sale}`,
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    Authorization: token,
+                },
+                success: function (res) {
+                    console.log(res);
+                    let html = ''
+                    res.data.data.forEach((item, index) => {
+                        html += ` <tr>
+                              <td>
+                                 <input type="checkbox">
+                              </td>
+                              <td datas-index=${index}>${item.id}</td>
+                              <td id="brief">
+                                <img src="${item.thumbnail}">
+                                <span>${item.title}</span>
+                              </td>
+                              
+                              <td>${item.price}</td>
+                              <td>${item.stock}</td>
+                              <td>${item.actual_sales}</td>
+                              <td>
+                                <button  data-id=${item.id}>下架</button>
+                                <button  data-id=${item.id}>编辑</button>
+                                <button  data-id=${item.id}>删除</button>
+                              </td>
+                          </tr>`
+                    })
+                    $("tbody").html(html)
+                }
+            })
+        }
+        layui.use(function () {
+            var laydate = layui.laydate;
+            // 自定义格式
+            laydate.render({
+                elem: '#ID-laydate-format-1',
+                format: 'yyyy年MM月dd日'
+            });
+            laydate.render({
+                elem: '#ID-laydate-format-2',
+                format: 'dd/MM/yyyy'
+            });
+            laydate.render({
+                elem: '#ID-laydate-format-3',
+                format: 'yyyyMMdd'
+            });
+            laydate.render({
+                elem: '#ID-laydate-format-4',
+                type: 'time',
+                format: 'H点m分'
+            });
+            laydate.render({
+                elem: '#ID-laydate-format-5',
+                type: 'month',
+                range: '~',
+                format: 'yyyy-MM'
+            });
+            laydate.render({
+                elem: '#ID-laydate-format-6',
+                type: 'datetime',
+                range: '到',
+                format: 'yyyy年M月d日H时m分s秒'
+            });
+        });
+
+        layui.use(function () {
+            var upload = layui.upload;
+            var layer = layui.layer;
+            var element = layui.element;
+            var $ = layui.$;
+            // 单图片上传
+            var uploadInst = upload.render({
+                elem: '#ID-upload-demo-btn',
+                url: '', // 实际使用时改成您自己的上传接口即可。
+                before: function (obj) {
+                    // 预读本地文件示例，不支持ie8
+                    obj.preview(function (index, file, result) {
+                        $('#ID-upload-demo-img').attr('src', result); // 图片链接（base64）
+                    });
+
+                    element.progress('filter-demo', '0%'); // 进度条复位
+                    layer.msg('上传中', { icon: 16, time: 0 });
+                },
+                // done: function (res) {
+                //     // 若上传失败
+                //     // if (res.code > 0) {
+                //     //     return layer.msg('上传失败');
+                //     // }
+                //     // 上传成功的一些操作
+                //     // …
+                //     // $('#ID-upload-demo-text').html(''); // 置空上传失败的状态
+                // },
+                // error: function () {
+                //     // 演示失败状态，并实现重传
+                //     var demoText = $('#ID-upload-demo-text');
+                //     demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                //     demoText.find('.demo-reload').on('click', function () {
+                //         uploadInst.upload();
+                //     });
+                // },
+                // 进度条
+                progress: function (n, elem, e) {
+                    element.progress('filter-demo', n + '%'); // 可配合 layui 进度条元素使用
+                    if (n == 100) {
+                        layer.msg('上传完毕', { icon: 1 });
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

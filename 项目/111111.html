@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .box {
+        width: 100%;
+        background-color: rgb(242, 245, 255);
+        overflow: hidden;
+    }
+
+    table {
+        width: 95%;
+        margin: auto;
+        text-align: center;
+    }
+
+    tr {
+        width: 95%;
+        height: 50px;
+
+    }
+
+    th,
+    td {
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    td {
+        height: 80px;
+        line-height: 20px;
+    }
+
+    .top {
+        width: 95%;
+        background-color: white;
+        margin: 50px auto;
+
+    }
+
+    #editbox {
+        width: 95%;
+        height: 150px;
+        border: 1px solid gray;
+        position: absolute;
+        top: 100px;
+        background-color: rgba(188, 215, 249, 0.5);
+        text-align: center;
+        line-height: 25px;
+        padding: 30px 0;
+        overflow: hidden;
+        display: none;
+        margin: auto;
+    }
+
+    button {
+        width: 50px;
+        height: 30px;
+        border: none;
+        color: #4292fd;
+        background-color: white;
+    }
+
+    #prev,
+    #next {
+        width: 50px;
+        height: 30px;
+        background-color: #4292fd;
+        color: white;
+    }
+</style>
+
+<body>
+    <div class="box">
+
+
+
+        <div class="top">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox">
+                        </th>
+                        <th>ID</th>
+                        <th>分类名称</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+            </table>
+            <div id='editbox'>
+                <h3 id="edit">修改商品</h3>
+                分类名称: <input type="text" id="name"><br><br>
+                分类ID：<input type="text" id="ID"><br><br>
+                <button id="void1">取消</button>&emsp;
+                <button id="seal1">保存</button>
+            </div>
+        </div>
+        <!-- <div id='editbox'>
+            <h3 id="edit">修改商品</h3>
+            分类名称: <input type="text" id="name"><br><br>
+            分类ID：<input type="text" id="ID"><br><br>
+            <button id="void1">取消</button>&emsp;
+            <button id="seal1">保存</button>
+        </div> -->
+
+    </div>
+    <script src="../jquery-3.7.1.js"></script>
+    <script>
+        let token = localStorage.getItem('token');
+        $(function () {
+            renderlist()
+
+            $("tbody").click(tbodyfun)
+
+            $("#void1").click(void1fun)
+
+            $("#seal1").click(seal1fun)
+        })
+
+        //删除编辑
+        function tbodyfun() {
+            let btn = event.target;
+            if (btn.tagName == "BUTTON" && btn.innerHTML == "删除") {
+                let id = $(event.target).data('id');
+                $.ajax({
+                    url: 'https://manage.zzgoodqc.cn/api/category/' + id,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    headers: {
+                        Authorization: token,
+                    },
+                    success: function (data) {
+                        renderlist()
+                    }
+                })
+            }
+            if (btn.tagName == 'BUTTON' && btn.innerHTML == "编辑") {
+                $("#editbox").toggle()
+                an = $(event.target).data('id')
+                let getID = event.target.dataset.id;
+                $.ajax({
+                    url: 'https://manage.zzgoodqc.cn/api/category/' + getID,
+                    type: 'get',
+                    dataType: 'json',
+                    headers: {
+                        Authorization: token,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $("#name").val(data.data.id)
+                        // $("#ID").val(data.data.id)
+                        // $("#name1").val(data.data.title)
+                        // $("#price1").val(data.data.price)
+                        // $("#stock1").val(data.data.stock)
+                        // $("#sales1").val(data.data.actual_sales)
+                        // $("#status1").val(data.data.status)
+                        // $("#type1").val(data.data.type)
+                        // $("#category1").val(data.data.category)
+                        renderlist()
+                    }
+                })
+            }
+        }
+
+        //保存编辑
+        function seal1fun() {
+            let seal = {
+                name: $("#name").val(),
+                // id: $("#id").val(),
+                // title: $("#name1").val(),
+                // price: $("#price1").val(),
+                // stock: $("#stock1").val(),
+                // actual_sales: $("#sales1").val(),
+                // status: $("#status1").val(),
+                // type: $("#type1").val(),
+                // category: $("#category1").val()
+            }
+            console.log(an);
+            console.log(seal);
+            $.ajax({
+                url: `https://manage.zzgoodqc.cn/api/category/${an}`,
+                type: 'PUT',
+                data: seal,
+                headers: {
+                    Authorization: token,
+                },
+                success: function (data) {
+                    console.log(data);
+                    renderlist()
+                    $('#editbox').css('display', 'none')
+                }
+            })
+        }
+
+        function void1fun() {
+            $('#editbox').css('display', 'none')
+        }
+
+        //xuanr
+        function renderlist() {
+            $.ajax({
+                url: 'https://manage.zzgoodqc.cn/api/category',
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    Authorization: token,
+                },
+                success: function (res) {
+                    console.log(res);
+                    let html = '';
+                    res.data.data.forEach((item, index) => {
+                        html += `<tr>
+                            <td><input type="checkbox"></td>
+                            <td datas-index=${index}>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.created_at}</td>
+                            <td>
+                                <button  data-id=${item.id}>删除</button>
+                                <button  data-id=${item.id}>编辑</button>
+                            </td>
+                        </tr>`
+                    })
+                    $("tbody").html(html)
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
