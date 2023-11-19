@@ -227,7 +227,7 @@
         $(function () {
             $("#Obtain").click(function () {
                 $.get(
-                    `http://manage.zzgoodqc.cn/api/user/captcha?mobile=${ipone.val()}`,
+                    `https://manage.zzgoodqc.cn/api/user/captcha?mobile=${ipone.val()}`,
                     function (res) {
                         // console.log(res);
                         $("#Codebox").css('display', 'block').html(res)
@@ -235,7 +235,7 @@
                     }
                 );
                 $.ajax({
-                    url: `http://manage.zzgoodqc.cn/api/user/captcha?mobile=${ipone.val()}`,
+                    url: `https://manage.zzgoodqc.cn/api/user/captcha?mobile=${ipone.val()}`,
                     type: 'post',
                     success: function (data) {
                         if (data.status == 201) {
@@ -252,7 +252,7 @@
 
             $("#register").click(function () {
                 $.ajax({
-                    url: 'http://manage.zzgoodqc.cn/api/user/register',
+                    url: 'https://manage.zzgoodqc.cn/api/user/register',
                     type: 'post',
                     data: {
                         username: $("#name").val(),
